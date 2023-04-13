@@ -3,6 +3,9 @@ on: push
 jobs:
   test:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [16.x]
     steps:
       - name: Get code
         uses: actions/checkout@v3
