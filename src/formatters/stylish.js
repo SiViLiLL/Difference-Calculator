@@ -1,4 +1,4 @@
-import { isObj, sortWthoutMutation } from '../utilits.js';
+import { isObj, hasProp, sortWthoutMutation } from '../utilits.js';
 
 const objToString = (obj, level, indent, typeOfIndent) => {
   const getTotalIndent = (currLevel) => typeOfIndent.repeat(currLevel * indent);
@@ -17,6 +17,9 @@ export default (diff, indent = 4, typeOfIndent = ' ') => {
 
   const iter = (node, level) => `{${sortWthoutMutation(node, (item1, item2) => (item1.key < item2.key))
     .reduce((acc, item) => {
+      if (isObj(item.val) && hasProp(item, 'oldVal')) {
+        return `${acc}\n${getTotalIndent(level, 2)}${item.status === 'added' ? '+ ' : '- '}${item.key}: ${objToString(item.val, level + 1, indent, typeOfIndent)}\n${getTotalIndent(level, 2)}+ ${item.key}: ${item.oldVal}`.trimEnd();
+      }
       if (isObj(item.val)) {
         return `${acc}\n${getTotalIndent(level, 2)}${item.status === 'added' ? '+ ' : '- '}${item.key}: ${objToString(item.val, level + 1, indent, typeOfIndent)}`;
       }
