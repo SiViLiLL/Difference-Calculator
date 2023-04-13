@@ -8,7 +8,7 @@ lint:
 	npm run lint
 
 test-jest:
-	npm run test-jest
+	npm run test
 
 test-coverage:
 	npm test -- --coverage --coverageProvider=v8
