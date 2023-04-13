@@ -14,7 +14,6 @@ const objToString = (obj, level, indent, typeOfIndent) => {
 
 export default (diff, indent = 4, typeOfIndent = ' ') => {
   const getTotalIndent = (level, offset) => typeOfIndent.repeat((indent * level) - offset);
-  const getTotalIndentWithoutOffset = (level) => typeOfIndent.repeat(indent * level);
 
   const iter = (node, level) => `{${sortWthoutMutation(node, (item1, item2) => (item1.key < item2.key))
     .reduce((acc, item) => {
@@ -33,7 +32,7 @@ export default (diff, indent = 4, typeOfIndent = ' ') => {
         default:
           return `${acc}\n${getTotalIndent(level, 2)}- ${item.key}: ${isObj(item.oldVal) ? objToString(item.oldVal, level + 1, indent, typeOfIndent) : item.oldVal}`.trimEnd() + `\n${getTotalIndent(level, 2)}+ ${item.key}: ${item.val}`.trimEnd();
       }
-    }, '')}\n${getTotalIndentWithoutOffset(level - 1)}}`;
+    }, '')}\n${getTotalIndent(level, indent)}}`;
 
   return iter(diff, 1);
 };
