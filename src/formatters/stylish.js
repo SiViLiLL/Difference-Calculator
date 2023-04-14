@@ -7,7 +7,7 @@ const objToString = (obj, level, indent, typeOfIndent) => {
     if (isObj(val)) {
       return `${acc}\n${getTotalIndent(currLevel)}${prop}: {${iter(val, currLevel + 1)}\n${getTotalIndent(currLevel)}}`;
     }
-    return `${acc}\n${getTotalIndent(currLevel)}${prop}: ${val}`.trimEnd();
+    return `${acc}\n${getTotalIndent(currLevel)}${prop}: ${val}`;
   }, '');
   return `{${iter(obj, level)}\n${getTotalIndent(level - 1)}}`;
 };
@@ -18,7 +18,7 @@ export default (diff, indent = 4, typeOfIndent = ' ') => {
   const iter = (node, level) => `{${sortWthoutMutation(node, (item1, item2) => (item1.key < item2.key))
     .reduce((acc, item) => {
       if (isObj(item.val) && hasProp(item, 'oldVal')) {
-        return `${acc}\n${getTotalIndent(level, 2)}- ${item.key}: ${item.oldVal}`.trimEnd() + `\n${getTotalIndent(level, 2)}+ ${item.key}: ${objToString(item.val, level + 1, indent, typeOfIndent)}`.trimEnd();
+        return `${acc}\n${getTotalIndent(level, 2)}- ${item.key}: ${item.oldVal}\n${getTotalIndent(level, 2)}+ ${item.key}: ${objToString(item.val, level + 1, indent, typeOfIndent)}`;
       }
       if (isObj(item.val)) {
         return `${acc}\n${getTotalIndent(level, 2)}${item.status === 'added' ? '+ ' : '- '}${item.key}: ${objToString(item.val, level + 1, indent, typeOfIndent)}`;
@@ -27,13 +27,13 @@ export default (diff, indent = 4, typeOfIndent = ' ') => {
         case 'tree':
           return `${acc}\n${getTotalIndent(level, 2)}  ${item.key}: ${iter(item.children, level + 1)}`;
         case 'not updated':
-          return `${acc}\n${getTotalIndent(level, 2)}  ${item.key}: ${item.val}`.trimEnd();
+          return `${acc}\n${getTotalIndent(level, 2)}  ${item.key}: ${item.val}`;
         case 'removed':
-          return `${acc}\n${getTotalIndent(level, 2)}- ${item.key}: ${item.val}`.trimEnd();
+          return `${acc}\n${getTotalIndent(level, 2)}- ${item.key}: ${item.val}`;
         case 'added':
-          return `${acc}\n${getTotalIndent(level, 2)}+ ${item.key}: ${item.val}`.trimEnd();
+          return `${acc}\n${getTotalIndent(level, 2)}+ ${item.key}: ${item.val}`;
         default:
-          return `${acc}\n${getTotalIndent(level, 2)}- ${item.key}: ${isObj(item.oldVal) ? objToString(item.oldVal, level + 1, indent, typeOfIndent) : item.oldVal}`.trimEnd() + `\n${getTotalIndent(level, 2)}+ ${item.key}: ${item.val}`.trimEnd();
+          return `${acc}\n${getTotalIndent(level, 2)}- ${item.key}: ${isObj(item.oldVal) ? objToString(item.oldVal, level + 1, indent, typeOfIndent) : item.oldVal}\n${getTotalIndent(level, 2)}+ ${item.key}: ${item.val}`;
       }
     }, '')}\n${getTotalIndent(level, indent)}}`;
 
