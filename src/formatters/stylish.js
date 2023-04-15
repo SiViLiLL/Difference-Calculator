@@ -27,9 +27,9 @@ export default (diff, indent = 4, typeOfIndent = ' ') => {
       const totalIndObjKeys = getTotalIndent(level, 0);
 
       if (isObj(item.val) && hasProp(item, 'oldVal')) {
-        const oldValStr = getStr(totalInd, mark, item.key, item.oldVal);
+        const oldValStr = getStr(totalInd, oldMark, item.key, item.oldVal);
         const objVal = objToString(item.val, true, indent, totalIndObjKeys);
-        const valStr = getStr(totalInd, oldMark, item.key, objVal);
+        const valStr = getStr(totalInd, mark, item.key, objVal);
 
         return `${acc}\n${oldValStr}\n${valStr}`;
       }
