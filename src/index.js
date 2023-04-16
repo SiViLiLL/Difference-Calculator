@@ -29,7 +29,7 @@ const getDiff = (o1, o2) => Object.keys({ ...o1, ...o2 })
     if (hasProp(o1, key) && hasProp(o2, key) && o1[key] === o2[key]) {
       return [...acc, { key, status: 'not updated', val: o1[key] }];
     }
-    if ((hasProp(o1, key) && hasProp(o2, key)) && isObj(o1[key]) && isObj(o2[key])) {
+    if (hasProp(o1, key) && hasProp(o2, key) && isObj(o1[key]) && isObj(o2[key])) {
       return [...acc, { key, status: 'tree', children: getDiff(o1[key], o2[key]) }];
     }
     if (hasProp(o1, key) && hasProp(o2, key)) {
