@@ -24,8 +24,7 @@ const getParsedContent = (filePath) => {
   }
 };
 
-const getDiff = (o1, o2) => [...Object.keys(o1), ...Object.keys(o2)]
-  .filter((key, i, arr) => arr.indexOf(key) === i)
+const getDiff = (o1, o2) => Object.keys({ ...o1, ...o2 })
   .reduce((acc, key) => {
     if (hasProp(o1, key) && hasProp(o2, key)) {
       if (o1[key] === o2[key]) {
@@ -38,10 +37,8 @@ const getDiff = (o1, o2) => [...Object.keys(o1), ...Object.keys(o2)]
         key, status: 'updated', val: o2[key], oldVal: o1[key],
       }];
     }
-    if (hasProp(o1, key)) {
-      return [...acc, { key, status: 'removed', val: o1[key] }];
-    }
-    return [...acc, { key, status: 'added', val: o2[key] }];
+    return hasProp(o1, key) ? [...acc, { key, status: 'removed', val: o1[key] }]
+      : [...acc, { key, status: 'added', val: o2[key] }];
   }, []);
 
 const getFormattedDiff = (format, diff) => {
