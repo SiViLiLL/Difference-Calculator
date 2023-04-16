@@ -26,13 +26,13 @@ const getParsedContent = (filePath) => {
 
 const getDiff = (o1, o2) => Object.keys({ ...o1, ...o2 })
   .reduce((acc, key) => {
+    if (hasProp(o1, key) && hasProp(o2, key) && o1[key] === o2[key]) {
+      return [...acc, { key, status: 'not updated', val: o1[key] }];
+    }
+    if ((hasProp(o1, key) && hasProp(o2, key)) && isObj(o1[key]) && isObj(o2[key])) {
+      return [...acc, { key, status: 'tree', children: getDiff(o1[key], o2[key]) }];
+    }
     if (hasProp(o1, key) && hasProp(o2, key)) {
-      if (o1[key] === o2[key]) {
-        return [...acc, { key, status: 'not updated', val: o1[key] }];
-      }
-      if (isObj(o1[key]) && isObj(o2[key])) {
-        return [...acc, { key, status: 'tree', children: getDiff(o1[key], o2[key]) }];
-      }
       return [...acc, {
         key, status: 'updated', val: o2[key], oldVal: o1[key],
       }];
