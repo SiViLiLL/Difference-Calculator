@@ -2,6 +2,9 @@ const isObj = (val) => Object.prototype.toString.call(val) === '[object Object]'
 
 const hasProp = (o, prop) => Object.prototype.hasOwnProperty.call(o, prop);
 
+const getUnKeys = (...listOfObj) => Object.keys(Array.from(listOfObj)
+  .reduce((acc, item) => ({ ...acc, ...item }), {}));
+
 // merge sort without any mutation :)
 const sortWthoutMutation = (arr, func) => {
   if (arr.length < 2) return arr;
