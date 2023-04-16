@@ -1,8 +1,7 @@
 import path, { resolve } from 'node:path';
-import yaml from 'js-yaml';
-
 import { readFileSync } from 'node:fs';
 import { cwd } from 'node:process';
+import yaml from 'js-yaml';
 
 const getContent = (filePath) => readFileSync(`${resolve(cwd(), `${filePath}`)}`, { encoding: 'utf8', flag: 'r' });
 
