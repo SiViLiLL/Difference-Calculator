@@ -6,7 +6,7 @@ const getUnKeys = (...listOfObj) => Object.keys(Array.from(listOfObj)
   .reduce((acc, item) => ({ ...acc, ...item }), {}));
 
 // merge sort without any mutation :)
-const sortWthoutMutation = (arr, func) => {
+const sortWtMut = (arr, func) => {
   if (arr.length < 2) return arr;
   const mid = Math.floor((arr.length) / 2);
 
@@ -32,7 +32,7 @@ const sortWthoutMutation = (arr, func) => {
     return iter(0, 0, []);
   };
 
-  return mergeSort(sortWthoutMutation(leftHalf, func), sortWthoutMutation(rightHalf, func));
+  return mergeSort(sortWtMut(leftHalf, func), sortWtMut(rightHalf, func));
 };
 
 const objToString = (obj, isNested = false, indent = 4, externalInd = '', typeOfIndent = ' ') => {
@@ -48,5 +48,5 @@ const objToString = (obj, isNested = false, indent = 4, externalInd = '', typeOf
 };
 
 export {
-  isObj, hasProp, sortWthoutMutation, objToString,
+  isObj, hasProp, sortWtMut, objToString, getUnKeys,
 };
