@@ -4,21 +4,21 @@ import json from './formatters/json.js';
 import { hasProp, isObj } from './utilits.js';
 import getParsedContent from './parser.js';
 
-const getDiff = (o1, o2) => Object.keys({ ...o1, ...o2 })
+const getDiff = (obj1, obj2) => Object.keys({ ...obj1, ...obj2 })
   .map((key) => {
-    if (hasProp(o1, key) && hasProp(o2, key) && o1[key] === o2[key]) {
-      return { key, status: 'not updated', val: o1[key] };
+    if (hasProp(obj1, key) && hasProp(obj2, key) && obj1[key] === obj2[key]) {
+      return { key, status: 'not updated', val: obj1[key] };
     }
-    if (hasProp(o1, key) && hasProp(o2, key) && isObj(o1[key]) && isObj(o2[key])) {
-      return { key, status: 'tree', children: getDiff(o1[key], o2[key]) };
+    if (hasProp(obj1, key) && hasProp(obj2, key) && isObj(obj1[key]) && isObj(obj2[key])) {
+      return { key, status: 'tree', children: getDiff(obj1[key], obj2[key]) };
     }
-    if (hasProp(o1, key) && hasProp(o2, key)) {
+    if (hasProp(obj1, key) && hasProp(obj2, key)) {
       return {
-        key, status: 'updated', val: o2[key], oldVal: o1[key],
+        key, status: 'updated', val: obj2[key], oldVal: obj1[key],
       };
     }
-    return hasProp(o1, key) ? { key, status: 'removed', val: o1[key] }
-      : { key, status: 'added', val: o2[key] };
+    return hasProp(obj1, key) ? { key, status: 'removed', val: obj1[key] }
+      : { key, status: 'added', val: obj2[key] };
   });
 
 const getFormattedDiff = (format, diff) => {
