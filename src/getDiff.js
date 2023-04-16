@@ -1,6 +1,8 @@
-import { hasProp, isObj } from './utilits.js';
+import {
+  hasProp, isObj, sortWtMut, getUnKeys,
+} from './utilits.js';
 
-const getDiff = (obj1, obj2) => Object.keys({ ...obj1, ...obj2 })
+const getDiff = (obj1, obj2) => sortWtMut(getUnKeys(obj1, obj2), (key1, key2) => key1 < key2)
   .map((key) => {
     if (hasProp(obj1, key) && hasProp(obj2, key) && obj1[key] === obj2[key]) {
       return { key, status: 'not updated', val: obj1[key] };

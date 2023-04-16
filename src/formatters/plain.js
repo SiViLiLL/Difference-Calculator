@@ -1,12 +1,9 @@
-import { isObj, sortWthoutMutation } from '../utilits.js';
+import { isObj } from '../utilits.js';
 
 export default (diff) => {
   const converValToStr = (val) => (typeof val === 'string' ? `'${val}'` : val);
 
-  const iter = (propVal, propName, currAcc) => sortWthoutMutation(
-    propVal,
-    (item1, item2) => (item1.key < item2.key),
-  )
+  const iter = (propVal, propName, currAcc) => propVal
     .reduce((acc, item) => {
       const itemVal = converValToStr(item.val);
       const itemOldVal = converValToStr(item.oldVal);

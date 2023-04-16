@@ -1,4 +1,4 @@
-import { isObj, sortWthoutMutation, objToString } from '../utilits.js';
+import { isObj, objToString } from '../utilits.js';
 
 const getStatusMark = (status) => {
   switch (status) {
@@ -26,20 +26,19 @@ export default (diff, indent = 4, typeOfIndent = ' ') => {
     return `${totalInd}${mark}${key}: ${val}`;
   };
 
-  const iter = (node, level) => `{${sortWthoutMutation(node, (item1, item2) => (item1.key < item2.key))
-    .reduce((acc, item) => {
-      const [mark, oldMark] = getStatusMark(item.status);
-      const totalInd = getTotalInd(level, mark);
+  const iter = (node, level) => `{${node.reduce((acc, item) => {
+    const [mark, oldMark] = getStatusMark(item.status);
+    const totalInd = getTotalInd(level, mark);
 
-      switch (item.status) {
-        case 'tree':
-          return `${acc}\n${getItemStr(totalInd, mark, item.key, iter(item.children, level + 1))}`;
-        case 'updated':
-          return `${acc}\n${getItemStr(totalInd, oldMark, item.key, item.oldVal)}\n${getItemStr(totalInd, mark, item.key, item.val)}`;
-        default:
-          return `${acc}\n${getItemStr(totalInd, mark, item.key, item.val)}`;
-      }
-    }, '')}\n${getTotalInd(level - 1)}}`;
+    switch (item.status) {
+      case 'tree':
+        return `${acc}\n${getItemStr(totalInd, mark, item.key, iter(item.children, level + 1))}`;
+      case 'updated':
+        return `${acc}\n${getItemStr(totalInd, oldMark, item.key, item.oldVal)}\n${getItemStr(totalInd, mark, item.key, item.val)}`;
+      default:
+        return `${acc}\n${getItemStr(totalInd, mark, item.key, item.val)}`;
+    }
+  }, '')}\n${getTotalInd(level - 1)}}`;
 
   return iter(diff, 1);
 };
