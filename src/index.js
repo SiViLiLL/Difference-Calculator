@@ -1,28 +1,8 @@
-import { readFileSync } from 'node:fs';
-import { cwd } from 'node:process';
-import path, { resolve } from 'node:path';
-import yaml from 'js-yaml';
-
 import stylish from './formatters/stylish.js';
 import plain from './formatters/plain.js';
 import json from './formatters/json.js';
 import { hasProp, isObj } from './utilits.js';
-
-const getContent = (filePath) => readFileSync(`${resolve(cwd(), `${filePath}`)}`, { encoding: 'utf8', flag: 'r' });
-
-const getParsedContent = (filePath) => {
-  const fileExt = path.extname(path.basename(filePath));
-
-  switch (fileExt) {
-    case '.json':
-      return JSON.parse(getContent(filePath));
-    case '.yml':
-    case '.yaml':
-      return yaml.load(getContent(filePath));
-    default:
-      return 'lol gg';
-  }
-};
+import getParsedContent from './parser.js';
 
 const getDiff = (o1, o2) => Object.keys({ ...o1, ...o2 })
   .map((key) => {
