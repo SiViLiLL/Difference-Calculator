@@ -1,13 +1,16 @@
 import { isObj, sortWthoutMutation } from '../utilits.js';
 
 export default (diff) => {
+  const converValToStr = (val) => (typeof val === 'string' ? `'${val}'` : val);
+
   const iter = (propVal, propName, currAcc) => sortWthoutMutation(
     propVal,
     (item1, item2) => (item1.key < item2.key),
   )
     .reduce((acc, item) => {
-      const itemVal = typeof item.val === 'string' ? `'${item.val}'` : item.val;
-      const itemOldVal = typeof item.oldVal === 'string' ? `'${item.oldVal}'` : item.oldVal;
+      const itemVal = converValToStr(item.val);
+      const itemOldVal = converValToStr(item.oldVal);
+
       switch (item.status) {
         case 'added':
           return `${acc}Property '${propName + item.key}' was ${item.status} with value: ${isObj(itemVal) ? '[complex value]' : itemVal}\n`;
