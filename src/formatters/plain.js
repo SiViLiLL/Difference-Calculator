@@ -10,11 +10,14 @@ export default (diff) => {
 
       switch (item.status) {
         case 'added':
-          return `${acc}Property '${propName + item.key}' was ${item.status} with value: ${isObj(itemVal) ? '[complex value]' : itemVal}\n`;
+          return `${acc}Property '${propName + item.key}' was ${item.status} `
+                 + `with value: ${isObj(itemVal) ? '[complex value]' : itemVal}\n`;
         case 'removed':
           return `${acc}Property '${propName + item.key}' was ${item.status}\n`;
         case 'updated':
-          return `${acc}Property '${propName + item.key}' was ${item.status}. From ${isObj(itemOldVal) ? '[complex value]' : itemOldVal} to ${isObj(itemVal) ? '[complex value]' : itemVal}\n`;
+          return `${acc}Property '${propName + item.key}' was ${item.status}. `
+                  + `From ${isObj(itemOldVal) ? '[complex value]' : itemOldVal} `
+                  + `to ${isObj(itemVal) ? '[complex value]' : itemVal}\n`;
         case 'tree':
           return iter(item.children, `${propName + item.key}.`, acc);
         default:
