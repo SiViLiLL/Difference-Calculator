@@ -1,4 +1,5 @@
-import { isObj, objToString } from '../utilits.js';
+import _ from 'lodash';
+import objToStr from '../utilits.js';
 
 const getStatusMark = (status) => {
   switch (status) {
@@ -17,9 +18,9 @@ export default (diff, indent = 4, typeOfIndent = ' ') => {
   const getTotalInd = (level, mark = '') => typeOfIndent.repeat((indent * level) - mark.length);
 
   const getItemStr = (totalInd, mark, key, val, typeOfInd = ' ') => {
-    if (isObj(val)) {
+    if (_.isPlainObject(val)) {
       const correctedTotalInd = totalInd + typeOfInd.repeat(mark.length);
-      const objVal = objToString(val, true, indent, correctedTotalInd);
+      const objVal = objToStr(val, true, indent, correctedTotalInd);
 
       return `${totalInd}${mark}${key}: ${objVal}`;
     }
