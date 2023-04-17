@@ -1,11 +1,11 @@
-import { isObj } from '../utilits.js';
+import _ from 'lodash';
 
 export default (diff) => {
   const convertValToStr = (val) => {
     if (typeof val === 'string') {
       return `'${val}'`;
     }
-    return isObj(val) ? '[complex value]' : val;
+    return _.isObject(val) ? '[complex value]' : val;
   };
 
   const iter = (propVal, propName, currAcc) => propVal
