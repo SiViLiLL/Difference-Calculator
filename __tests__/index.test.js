@@ -14,6 +14,7 @@ test('comparison of JSON & get stylish', () => {
   const firstPath = getPath('file1.json');
   const secondPath = getPath('file2.json');
 
+  expect(getDifference(firstPath, secondPath, 'stylish')).toEqual(getAnswer('answerStylish.txt'));
   expect(getDifference(firstPath, secondPath)).toEqual(getAnswer('answerStylish.txt'));
 });
 
@@ -21,6 +22,7 @@ test('comparsion of Yml & get stylish', () => {
   const firstPath = getPath('file1.yml');
   const secondPath = getPath('file2.yml');
 
+  expect(getDifference(firstPath, secondPath, 'stylish')).toEqual(getAnswer('answerStylish.txt'));
   expect(getDifference(firstPath, secondPath)).toEqual(getAnswer('answerStylish.txt'));
 });
 
