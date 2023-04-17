@@ -32,11 +32,15 @@ export default (diff, indent = 4, typeOfIndent = ' ') => {
 
     switch (item.status) {
       case 'tree':
-        return `${acc}\n${getItemStr(totalInd, mark, item.key, iter(item.children, level + 1))}`;
+        return `${acc}\n`
+                + `${getItemStr(totalInd, mark, item.key, iter(item.children, level + 1))}`;
       case 'updated':
-        return `${acc}\n${getItemStr(totalInd, oldMark, item.key, item.oldVal)}\n${getItemStr(totalInd, mark, item.key, item.val)}`;
+        return `${acc}\n`
+                + `${getItemStr(totalInd, oldMark, item.key, item.oldVal)}\n`
+                + `${getItemStr(totalInd, mark, item.key, item.val)}`;
       default:
-        return `${acc}\n${getItemStr(totalInd, mark, item.key, item.val)}`;
+        return `${acc}\n`
+                + `${getItemStr(totalInd, mark, item.key, item.val)}`;
     }
   }, '')}\n${getTotalInd(level - 1)}}`;
 
