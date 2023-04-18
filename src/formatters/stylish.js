@@ -1,5 +1,4 @@
 import _ from 'lodash';
-import objToStr from '../utilits.js';
 
 const getStatusMark = (status) => {
   switch (status) {
@@ -12,6 +11,19 @@ const getStatusMark = (status) => {
     default:
       return ['  '];
   }
+};
+
+const objToStr = (obj, isNested = false, indent = 4, externalInd = '', typeOfIndent = ' ') => {
+  const getTotalIndent = (currLevel) => externalInd + typeOfIndent.repeat(currLevel * indent);
+
+  const iter = (currObj, currLevel) => Object.entries(currObj).reduce((acc, [prop, val]) => {
+    if (_.isPlainObject(val)) {
+      return `${acc}\n${getTotalIndent(currLevel)}${prop}: {${iter(val, currLevel + 1)}\n${getTotalIndent(currLevel)}}`;
+    }
+    return `${acc}\n${getTotalIndent(currLevel)}${prop}: ${val}`;
+  }, '');
+
+  return `${isNested ? '' : externalInd}{${iter(obj, 1)}\n${externalInd}}`;
 };
 
 export default (diff, indent = 4, typeOfIndent = ' ') => {
