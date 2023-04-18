@@ -12,8 +12,8 @@ export default (firstPath, secondPath, format = 'stylish') => {
   const secondFileContent = getContent(secondPath);
   const firstFileExt = getExtName(firstPath);
   const secondFileExt = getExtName(secondPath);
-  const firstFileParsedContent = getParsedContent(firstFileExt)(firstFileContent);
-  const secondFileParsedContent = getParsedContent(secondFileExt)(secondFileContent);
+  const firstFileParsedContent = getParsedContent(firstFileContent, firstFileExt);
+  const secondFileParsedContent = getParsedContent(secondFileContent, secondFileExt);
 
   return getFormattedData(firstFileParsedContent, secondFileParsedContent, format);
 };
