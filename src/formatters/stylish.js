@@ -1,6 +1,6 @@
 import _ from 'lodash';
 
-const getStatusMark = (status) => {
+const getStatusBage = (status) => {
   switch (status) {
     case 'added':
       return ['+ '];
@@ -27,35 +27,35 @@ const objToStr = (obj, isNested = false, indent = 4, externalInd = '', typeOfInd
 };
 
 export default (diff, indent = 4, typeOfIndent = ' ') => {
-  const getTotalInd = (level, mark = '') => typeOfIndent.repeat((indent * level) - mark.length);
+  const getTotalIndent = (level, statusBage = '') => typeOfIndent.repeat((indent * level) - statusBage.length);
 
-  const getItemStr = (totalInd, mark, key, val, typeOfInd = ' ') => {
+  const getItemStr = (totalIndent, statusBage, key, val) => {
     if (_.isPlainObject(val)) {
-      const correctedTotalInd = totalInd + typeOfInd.repeat(mark.length);
-      const objVal = objToStr(val, true, indent, correctedTotalInd);
+      const externalIndent = totalIndent + typeOfIndent.repeat(statusBage.length);
+      const objVal = objToStr(val, true, indent, externalIndent);
 
-      return `${totalInd}${mark}${key}: ${objVal}`;
+      return `${totalIndent}${statusBage}${key}: ${objVal}`;
     }
-    return `${totalInd}${mark}${key}: ${val}`;
+    return `${totalIndent}${statusBage}${key}: ${val}`;
   };
 
   const iter = (node, level) => `{${node.reduce((acc, item) => {
-    const [mark, oldMark] = getStatusMark(item.status);
-    const totalInd = getTotalInd(level, mark);
+    const [statusBage, oldStatusBage] = getStatusBage(item.status);
+    const totalInd = getTotalIndent(level, statusBage);
 
     switch (item.status) {
       case 'tree':
         return `${acc}\n`
-                + `${getItemStr(totalInd, mark, item.key, iter(item.children, level + 1))}`;
+                + `${getItemStr(totalInd, statusBage, item.key, iter(item.children, level + 1))}`;
       case 'updated':
         return `${acc}\n`
-                + `${getItemStr(totalInd, oldMark, item.key, item.oldVal)}\n`
-                + `${getItemStr(totalInd, mark, item.key, item.val)}`;
+                + `${getItemStr(totalInd, oldStatusBage, item.key, item.oldVal)}\n`
+                + `${getItemStr(totalInd, statusBage, item.key, item.val)}`;
       default:
         return `${acc}\n`
-                + `${getItemStr(totalInd, mark, item.key, item.val)}`;
+                + `${getItemStr(totalInd, statusBage, item.key, item.val)}`;
     }
-  }, '')}\n${getTotalInd(level - 1)}}`;
+  }, '')}\n${getTotalIndent(level - 1)}}`;
 
   return iter(diff, 1);
 };
