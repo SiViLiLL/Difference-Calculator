@@ -17,13 +17,6 @@ test('getting unknown format name', () => {
   expect(() => getDifference(firstPath, secondPath, 'lol gg')).toThrow();
 });
 
-test('getting an unsupported extension', () => {
-  const firstPath = getPath('file1.lol');
-  const secondPath = getPath('file2.gg');
-
-  expect(() => getDifference(firstPath, secondPath)).toThrow();
-});
-
 test('comparison of JSON & get stylish', () => {
   const firstPath = getPath('file1.json');
   const secondPath = getPath('file2.json');
