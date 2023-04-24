@@ -57,7 +57,7 @@ export default (diff, indent = 4, typeOfIndent = ' ') => {
         return `${acc}\n`
                 + `${getItemStr(totalIndent, indent, typeOfIndent, statusBage, item.key, item.val)}`;
       default:
-        return acc;
+        throw new Error('Oops, something went wrong )');
     }
   }, '')}\n${getTotalIndent((level - 1), indent, typeOfIndent)}}`;
 

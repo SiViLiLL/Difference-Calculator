@@ -23,8 +23,10 @@ export default (diff) => {
         }
         case 'tree':
           return iter(item.children, `${propName + item.key}.`, acc);
-        default:
+        case 'not updated':
           return acc;
+        default:
+          throw new Error('Oops, something went wrong )');
       }
     }, currAcc);
 
