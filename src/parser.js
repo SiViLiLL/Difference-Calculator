@@ -1,7 +1,7 @@
 import yaml from 'js-yaml';
 
-export default (data, extName) => {
-  switch (extName) {
+export default (data, format) => {
+  switch (format) {
     case '.yml':
     case '.yaml':
       return yaml.load(data);

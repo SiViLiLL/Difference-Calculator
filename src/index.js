@@ -10,10 +10,10 @@ const getExtName = (filePath) => path.extname(path.basename(filePath));
 export default (firstPath, secondPath, format = 'stylish') => {
   const firstFileContent = getContent(firstPath);
   const secondFileContent = getContent(secondPath);
-  const firstFileExt = getExtName(firstPath);
-  const secondFileExt = getExtName(secondPath);
-  const firstFileParsedContent = getParsedContent(firstFileContent, firstFileExt);
-  const secondFileParsedContent = getParsedContent(secondFileContent, secondFileExt);
+  const firstFileDataFormat = getExtName(firstPath);
+  const secondFileDataFormat = getExtName(secondPath);
+  const firstFileParsedContent = getParsedContent(firstFileContent, firstFileDataFormat);
+  const secondFileParsedContent = getParsedContent(secondFileContent, secondFileDataFormat);
 
   return getFormattedData(firstFileParsedContent, secondFileParsedContent, format);
 };
