@@ -8,8 +8,11 @@ const getStatusBage = (status) => {
       return ['- '];
     case 'updated':
       return ['+ ', '- '];
-    default:
+    case 'not updated':
+    case 'tree':
       return ['  '];
+    default:
+      throw new Error('Oops, something went wrong )');
   }
 };
 
